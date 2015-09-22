@@ -1,5 +1,7 @@
 package interpreter;
 
+// Tree a = Leaf Value | Branch a (Tree b) (Tree c)
+
 public abstract class SyntaxTree<T extends Token> {
     private final T token;
 
