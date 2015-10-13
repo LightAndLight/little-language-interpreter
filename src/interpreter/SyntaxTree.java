@@ -35,6 +35,16 @@ public abstract class SyntaxTree<T extends Token> {
             super(op);
         }
 
+        public abstract SyntaxTree setLeft(SyntaxTree left);
+
+        public SyntaxTree getRight() {
+            return right;
+        }
+
+        public boolean isLeaf() {
+            return false;
+        }
+
         public int eval() {
             return getToken().eval(left.eval(), right.eval());
         }
@@ -43,17 +53,29 @@ public abstract class SyntaxTree<T extends Token> {
             public Add(SyntaxTree left, SyntaxTree right) {
                 super(new Token.Operator.Add(), left, right);
             }
+
+            public SyntaxTree setLeft(SyntaxTree left) {
+                return new Branch.Add(left, getRight());
+            }
         }
 
         public static class Mod extends Branch<Token.Operator.Mod> {
             public Mod(SyntaxTree left, SyntaxTree right) {
                 super(new Token.Operator.Mod(), left, right);
             }
+
+            public SyntaxTree setLeft(SyntaxTree left) {
+                return new Branch.Mod(left, getRight());
+            }
         }
 
         public static class Max extends Branch<Token.Operator.Max> {
             public Max(SyntaxTree left, SyntaxTree right) {
                 super(new Token.Operator.Max(), left, right);
+            }
+
+            public SyntaxTree setLeft(SyntaxTree left) {
+                return new Branch.Max(left, getRight());
             }
         }
     }
