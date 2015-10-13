@@ -31,7 +31,7 @@ public class Parser {
     private Optional<SyntaxTree> parseValue(LinkedList<Token> input) {
         Token token = input.getFirst();
         if (parseToken(input, Token.Type.VALUE)) {
-            return Optional.of(new SyntaxTree(token));
+            return Optional.of(new SyntaxTree.Leaf((Token.Value)token));
         } else {
             return Optional.empty();
         }
@@ -40,7 +40,7 @@ public class Parser {
     private Optional<SyntaxTree> parseLeftSide(LinkedList<Token> input) {
         return parseTerminal(input).map(
                 terminal -> parseRightSide(input).map(
-                        tree -> new SyntaxTree(tree.getToken(), terminal, tree.getRight())
+                        tree -> tree.setLeft(terminal)
                 ).orElse(terminal)
         );
     }
@@ -55,13 +55,13 @@ public class Parser {
     }
 
 
-    private Optional<SyntaxTree> parseRightSide(LinkedList<Token> input) {
-        Optional<SyntaxTree> maybeMax = parseMax(input);
+    private Optional<SyntaxTree.Branch> parseRightSide(LinkedList<Token> input) {
+        Optional<SyntaxTree.Branch> maybeMax = parseMax(input);
         if (maybeMax.isPresent()) {
             return maybeMax;
         }
 
-        Optional<SyntaxTree> maybeMod = parseMod(input);
+        Optional<SyntaxTree.Branch> maybeMod = parseMod(input);
         if (maybeMod.isPresent()) {
             return maybeMod;
         }
@@ -80,25 +80,25 @@ public class Parser {
         return Optional.empty();
     }
 
-    private Optional<SyntaxTree> parseMax(LinkedList<Token> input) {
+    private Optional<SyntaxTree.Branch> parseMax(LinkedList<Token> input) {
         if (input.size() >= 2 && parseToken(input, Token.Type.MAX)) {
-            return parseTerminal(input).map(terminal -> new SyntaxTree(new Token.Operator.Max(), null, terminal));
+            return parseTerminal(input).map(terminal -> new SyntaxTree.Branch.Max(null, terminal));
         } else {
             return Optional.empty();
         }
     }
 
-    private Optional<SyntaxTree> parseMod(LinkedList<Token> input) {
+    private Optional<SyntaxTree.Branch> parseMod(LinkedList<Token> input) {
         if (input.size() >= 2 && parseToken(input, Token.Type.MOD)) {
-            return parseTerminal(input).map(terminal -> new SyntaxTree(new Token.Operator.Mod(), null, terminal));
+            return parseTerminal(input).map(terminal -> new SyntaxTree.Branch.Mod(null, terminal));
         } else {
             return Optional.empty();
         }
     }
 
-    private Optional<SyntaxTree> parseAdd(LinkedList<Token> input) {
+    private Optional<SyntaxTree.Branch> parseAdd(LinkedList<Token> input) {
         if (input.size() >= 2 && parseToken(input, Token.Type.ADD)) {
-            return parseTerminal(input).map(terminal -> new SyntaxTree(new Token.Operator.Add(), null, terminal));
+            return parseTerminal(input).map(terminal -> new SyntaxTree.Branch.Add(null, terminal));
         } else {
             return Optional.empty();
         }
