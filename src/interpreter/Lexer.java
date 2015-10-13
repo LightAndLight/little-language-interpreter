@@ -17,6 +17,14 @@ public class Lexer {
             return pattern.matcher(s);
         }
 
+        private Optional<Token> returnIfFound(String s, Token token) {
+            if (getMatcher(s).find(0)) {
+                return Optional.of(token);
+            } else {
+                return Optional.empty();
+            }
+        }
+
         public abstract Optional<Token> getToken(String s);
 
         public static class OpenParenFinder extends TokenFinder {
@@ -25,11 +33,7 @@ public class Lexer {
             }
 
             public Optional<Token> getToken(String s) {
-                if (getMatcher(s).find(0)) {
-                    return Optional.of(new Token.OpenParen());
-                } else {
-                    return Optional.empty();
-                }
+                return super.returnIfFound(s, new Token.OpenParen());
             }
         }
 
@@ -39,11 +43,7 @@ public class Lexer {
             }
 
             public Optional<Token> getToken(String s) {
-                if (getMatcher(s).find(0)) {
-                    return Optional.of(new Token.CloseParen());
-                } else {
-                    return Optional.empty();
-                }
+                return super.returnIfFound(s, new Token.CloseParen());
             }
         }
 
@@ -68,11 +68,7 @@ public class Lexer {
             }
 
             public Optional<Token> getToken(String s) {
-                if (getMatcher(s).find(0)) {
-                    return Optional.of(new Token.Operator.Mod());
-                } else {
-                    return Optional.empty();
-                }
+                return super.returnIfFound(s, new Token.Operator.Mod());
             }
         }
 
@@ -82,11 +78,7 @@ public class Lexer {
             }
 
             public Optional<Token> getToken(String s) {
-                if (getMatcher(s).find(0)) {
-                    return Optional.of(new Token.Operator.Max());
-                } else {
-                    return Optional.empty();
-                }
+                return super.returnIfFound(s, new Token.Operator.Max());
             }
         }
 
@@ -96,11 +88,7 @@ public class Lexer {
             }
 
             public Optional<Token> getToken(String s) {
-                if (getMatcher(s).find()) {
-                    return Optional.of(new Token.Operator.Add());
-                } else {
-                    return Optional.empty();
-                }
+                return super.returnIfFound(s, new Token.Operator.Add());
             }
         }
     }
