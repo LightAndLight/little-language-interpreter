@@ -10,7 +10,7 @@ public abstract class InterpreterException extends Exception {
 
         @Override
         public String toString() {
-            return "Unxpected input: " + input;
+            return "Unexpected input: " + input;
         }
     }
 
