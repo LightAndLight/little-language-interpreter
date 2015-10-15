@@ -33,16 +33,14 @@ public abstract class SyntaxTree<T extends Token> {
 
         public Branch(B op, SyntaxTree left, SyntaxTree right) {
             super(op);
+            this.left = left;
+            this.right = right;
         }
 
         public abstract SyntaxTree setLeft(SyntaxTree left);
 
         public SyntaxTree getRight() {
             return right;
-        }
-
-        public boolean isLeaf() {
-            return false;
         }
 
         public int eval() {
