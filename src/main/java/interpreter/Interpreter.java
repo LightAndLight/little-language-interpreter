@@ -3,7 +3,7 @@ package interpreter;
 import java.util.Scanner;
 
 public class Interpreter {
-    public static void main(String[] args) throws InterpreterError {
+    public static void main(String[] args) {
         Lexer lexer = new Lexer();
         Parser parser = new Parser();
 
@@ -20,7 +20,7 @@ public class Interpreter {
             try {
                 SyntaxTree tree = parser.parseString(lexer.tokenize(input));
                 System.out.println(tree.eval());
-            } catch (InterpreterError e) {
+            } catch (InterpreterException e) {
                 System.out.println("An error occurred");
             }
         }
