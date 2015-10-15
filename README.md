@@ -1,2 +1,16 @@
 # little-language-interpreter
 An interpreter for a tiny subset of arithmetic expressions
+
+This arose from an assignment about binary trees. I took it as an
+opportunity to learn a bit about the kinds of techniques compilers use.
+
+### The Language
+
+Operators:
+
+m & n --- m + n
+m % n --- m & n
+m ? n --- max(m,n)
+
+TERM = (EXPR) | positive_integer
+EXPR = TERM | TERM operator TERM
