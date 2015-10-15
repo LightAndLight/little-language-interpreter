@@ -120,6 +120,9 @@ public class Lexer {
                 throw new InterpreterException.UnexpectedInputException(remaining);
             }
         }
+
+        result.addLast(new Token.Eof());
+
         return result;
     }
 }
