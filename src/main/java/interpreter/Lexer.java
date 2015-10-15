@@ -102,7 +102,7 @@ public class Lexer {
             new TokenFinder.AddFinder()
     };
 
-    public LinkedList<Token> tokenize(String input) throws InterpreterException {
+    public LinkedList<Token> tokenize(String input) throws InterpreterError {
         LinkedList<Token> result = new LinkedList<>();
         String remaining = input;
         while (!remaining.isEmpty()) {
@@ -117,7 +117,7 @@ public class Lexer {
             }
 
             if (!remaining.isEmpty() && !maybeToken.isPresent()) {
-                throw new InterpreterException();
+                throw new InterpreterError();
             }
         }
         return result;

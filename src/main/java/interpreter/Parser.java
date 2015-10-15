@@ -10,12 +10,12 @@ public class Parser {
     // 3.	A* -> % T | ? T | & T | e
     // 4.	T  -> (A) | number
 
-    public SyntaxTree parseString(LinkedList<Token> input) throws InterpreterException {
+    public SyntaxTree parseString(LinkedList<Token> input) throws InterpreterError {
         Optional<SyntaxTree> maybeLeftSide = parseLeftSide(input);
         if (maybeLeftSide.isPresent()) {
             return maybeLeftSide.get();
         } else {
-            throw new InterpreterException();
+            throw new InterpreterError();
         }
     }
 
