@@ -13,7 +13,7 @@ public abstract class SyntaxTree<T extends Token> {
         return token;
     }
 
-    public abstract int eval();
+    public abstract int eval() throws InterpreterException.DivideByZeroException;
 
     public static class Leaf extends SyntaxTree<Token.Value> {
         public Leaf(Token.Value value) {
@@ -43,8 +43,12 @@ public abstract class SyntaxTree<T extends Token> {
             return right;
         }
 
-        public int eval() {
-            return getToken().eval(left.eval(), right.eval());
+        public int eval() throws InterpreterException.DivideByZeroException {
+            int rightValue = getRight().eval();
+            if (rightValue == 0) {
+                throw new InterpreterException.DivideByZeroException();
+            }
+            return getToken().eval(left.eval(), rightValue);
         }
 
         public static class Add extends Branch<Token.Operator.Add> {
