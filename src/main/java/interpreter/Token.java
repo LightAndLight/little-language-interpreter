@@ -7,7 +7,8 @@ public abstract class Token {
         MAX,
         OPEN_PAREN,
         CLOSE_PAREN,
-        VALUE
+        VALUE,
+        EOF
     }
 
     public abstract Type getType();
@@ -71,6 +72,12 @@ public abstract class Token {
     public static class CloseParen extends Token {
         public Type getType() {
             return Type.CLOSE_PAREN;
+        }
+    }
+
+    public static class Eof extends Token {
+        public Type getType() {
+            return Type.EOF;
         }
     }
 }
