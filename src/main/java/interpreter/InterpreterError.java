@@ -15,10 +15,10 @@ public abstract class InterpreterError {
     }
 
     public static class UnexpectedTokenError extends InterpreterError {
-        private Token actual;
-        private Token expected;
+        private Token.Type actual;
+        private Token.Type expected;
 
-        public UnexpectedTokenError(Token actual, Token expected) {
+        public UnexpectedTokenError(Token.Type actual, Token.Type expected) {
             this.actual = actual;
             this.expected = expected;
         }
