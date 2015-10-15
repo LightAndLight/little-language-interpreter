@@ -6,11 +6,14 @@ opportunity to learn a bit about the kinds of techniques compilers use.
 
 ### The Language
 
-Operators:
+####Operators:
 
 m & n --- m + n
+
 m % n --- m & n
+
 m ? n --- max(m,n)
 
-TERM = (EXPR) | positive_integer
-EXPR = TERM | TERM operator TERM
+#### Grammar
+
+Whitespace insensitive. Each non-integer argument to an operator requires parentheses.
