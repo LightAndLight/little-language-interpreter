@@ -14,6 +14,13 @@ public abstract class InterpreterException extends Exception {
         }
     }
 
+    public static class UnexpectedEndOfInputException extends InterpreterException {
+        @Override
+        public String toString() {
+            return "Unexpected end of input";
+        }
+    }
+
     public static class UnexpectedTokenException extends InterpreterException {
         private Token.Type actual;
         private Token.Type expected;
