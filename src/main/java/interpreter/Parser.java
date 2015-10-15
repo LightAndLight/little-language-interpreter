@@ -10,12 +10,12 @@ public class Parser {
     // 3.	A* -> % T | ? T | & T | e
     // 4.	T  -> (A) | number
 
-    public SyntaxTree parseString(LinkedList<Token> input) throws InterpreterError {
+    public SyntaxTree parseString(LinkedList<Token> input) throws InterpreterException {
         Optional<SyntaxTree> maybeLeftSide = parseLeftSide(input);
         if (maybeLeftSide.isPresent()) {
             return maybeLeftSide.get();
         } else {
-            throw new InterpreterError();
+            throw new InterpreterException();
         }
     }
 
@@ -31,7 +31,7 @@ public class Parser {
     private Optional<SyntaxTree> parseValue(LinkedList<Token> input) {
         Token token = input.getFirst();
         if (parseToken(input, Token.Type.VALUE)) {
-            return Optional.of(new SyntaxTree.Leaf((Token.Value)token));
+            return Optional.of(new SyntaxTree.Leaf((Token.Value) token));
         } else {
             return Optional.empty();
         }
