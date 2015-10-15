@@ -54,7 +54,6 @@ public class Parser {
         }
     }
 
-
     private Optional<SyntaxTree.Branch> parseRightSide(LinkedList<Token> input) {
         Optional<SyntaxTree.Branch> maybeMax = parseMax(input);
         if (maybeMax.isPresent()) {
