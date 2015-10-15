@@ -1,10 +1,10 @@
 package interpreter;
 
-public abstract class InterpreterError {
-    public static class UnexpectedInputError extends InterpreterError {
+public abstract class InterpreterException extends Exception {
+    public static class UnexpectedInputException extends InterpreterException {
         private String input;
 
-        public UnexpectedInputError(String input) {
+        public UnexpectedInputException(String input) {
             this.input = input;
         }
 
@@ -14,11 +14,11 @@ public abstract class InterpreterError {
         }
     }
 
-    public static class UnexpectedTokenError extends InterpreterError {
+    public static class UnexpectedTokenException extends InterpreterException {
         private Token.Type actual;
         private Token.Type expected;
 
-        public UnexpectedTokenError(Token.Type actual, Token.Type expected) {
+        public UnexpectedTokenException(Token.Type actual, Token.Type expected) {
             this.actual = actual;
             this.expected = expected;
         }
@@ -32,7 +32,7 @@ public abstract class InterpreterError {
         }
     }
 
-    public static class DivideByZeroError extends InterpreterError {
+    public static class DivideByZeroException extends InterpreterException {
         @Override
         public String toString() {
             return "Division by zero";
