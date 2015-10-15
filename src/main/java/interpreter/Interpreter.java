@@ -8,7 +8,7 @@ public class Interpreter {
         Parser parser = new Parser();
 
         Scanner scanner = new Scanner(System.in);
-        String input = "";
+        String input;
         while (true) {
             System.out.print(">> ");
 
