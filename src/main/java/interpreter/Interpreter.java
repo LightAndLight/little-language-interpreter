@@ -17,11 +17,13 @@ public class Interpreter {
                 break;
             }
 
-            try {
-                SyntaxTree tree = parser.parseString(lexer.tokenize(input));
-                System.out.println(tree.eval());
-            } catch (InterpreterException e) {
-                System.out.println("An error occurred");
+            if (!input.isEmpty()) {
+                try {
+                    SyntaxTree tree = parser.parseString(lexer.tokenize(input));
+                    System.out.println(tree.eval());
+                } catch (InterpreterException e) {
+                    System.out.println(e.toString());
+                }
             }
         }
     }
