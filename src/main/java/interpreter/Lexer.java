@@ -9,8 +9,8 @@ public class Lexer {
     private static abstract class TokenFinder {
         private final Pattern pattern;
 
-        public TokenFinder(Pattern pattern) {
-            this.pattern = pattern;
+        public TokenFinder(String pattern) {
+            this.pattern = Pattern.compile("^\\s*(" + pattern + ")\\s*");
         }
 
         public Matcher getMatcher(String s) {
@@ -29,7 +29,7 @@ public class Lexer {
 
         public static class OpenParenFinder extends TokenFinder {
             public OpenParenFinder() {
-                super(Pattern.compile("^\\("));
+                super("\\(");
             }
 
             public Optional<Token> getToken(String s) {
@@ -39,7 +39,7 @@ public class Lexer {
 
         public static class CloseParenFinder extends TokenFinder {
             public CloseParenFinder() {
-                super(Pattern.compile("^\\)"));
+                super("\\)");
             }
 
             public Optional<Token> getToken(String s) {
@@ -49,13 +49,13 @@ public class Lexer {
 
         public static class ValueFinder extends TokenFinder {
             public ValueFinder() {
-                super(Pattern.compile("^\\d+"));
+                super("\\d+");
             }
 
             public Optional<Token> getToken(String s) {
                 Matcher matcher = getMatcher(s);
                 if (matcher.find(0)) {
-                    return Optional.of(new Token.Value(Integer.parseInt(matcher.group())));
+                    return Optional.of(new Token.Value(Integer.parseInt(matcher.group(1))));
                 } else {
                     return Optional.empty();
                 }
@@ -64,7 +64,7 @@ public class Lexer {
 
         public static class ModFinder extends TokenFinder {
             public ModFinder() {
-                super(Pattern.compile("^\\s%\\s"));
+                super("%");
             }
 
             public Optional<Token> getToken(String s) {
@@ -74,7 +74,7 @@ public class Lexer {
 
         public static class MaxFinder extends TokenFinder {
             public MaxFinder() {
-                super(Pattern.compile("^\\s\\?\\s"));
+                super("\\?");
             }
 
             public Optional<Token> getToken(String s) {
@@ -84,7 +84,7 @@ public class Lexer {
 
         public static class AddFinder extends TokenFinder {
             public AddFinder() {
-                super(Pattern.compile("\\s&\\s"));
+                super("&");
             }
 
             public Optional<Token> getToken(String s) {
@@ -102,7 +102,7 @@ public class Lexer {
             new TokenFinder.AddFinder()
     };
 
-    public LinkedList<Token> tokenize(String input) throws InterpreterException.UnexpectedEndOfInputException {
+    public LinkedList<Token> tokenize(String input) throws InterpreterException.UnexpectedEndOfInputException, InterpreterException.UnexpectedInputException {
         LinkedList<Token> result = new LinkedList<>();
         String remaining = input;
         while (!remaining.isEmpty()) {
@@ -117,7 +117,7 @@ public class Lexer {
             }
 
             if (!remaining.isEmpty() && !maybeToken.isPresent()) {
-                throw new InterpreterException.UnexpectedEndOfInputException();
+                throw new InterpreterException.UnexpectedInputException(remaining);
             }
         }
         return result;
