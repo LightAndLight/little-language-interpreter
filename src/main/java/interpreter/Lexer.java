@@ -1,5 +1,7 @@
 package interpreter;
 
+import fj.data.Either;
+
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -102,7 +104,7 @@ public class Lexer {
             new TokenFinder.AddFinder()
     };
 
-    public LinkedList<Token> tokenize(String input) throws InterpreterError {
+    public Either<InterpreterError,LinkedList<Token>> tokenize(String input) {
         LinkedList<Token> result = new LinkedList<>();
         String remaining = input;
         while (!remaining.isEmpty()) {
@@ -117,9 +119,12 @@ public class Lexer {
             }
 
             if (!remaining.isEmpty() && !maybeToken.isPresent()) {
-                throw new InterpreterError();
+                return Either.left(
+                        new InterpreterError.UnexpectedInputError(remaining)
+                );
             }
         }
-        return result;
+
+        return Either.right(result);
     }
 }
