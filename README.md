@@ -2,7 +2,7 @@
 An interpreter for a tiny subset of arithmetic expressions
 
 This arose from an assignment about binary trees. I took it as an
-opportunity to learn a bit about the kinds of techniques compilers use.
+opportunity to learn a bit about compilers/interpreters.
 
 ### The Language
 
